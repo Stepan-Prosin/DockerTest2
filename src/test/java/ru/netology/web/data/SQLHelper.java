@@ -9,28 +9,31 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLHelper {
-    private static final QueryRunner  QUERY_RUNNER= new QueryRunner();
+    private static final QueryRunner QUERY_RUNNER = new QueryRunner();
 
-    private static Connection getConn() throws SQLException{
-        return DriverManager.getConnection(System.getProperty("db.url"),"app","pass");
+    private static Connection getConn() throws SQLException {
+        return DriverManager.getConnection(System.getProperty("db.url"), "app", "pass");
     }
+
     @SneakyThrows
-    public static DataHelper.VerifivationCode getVerificationCode(){
+    public static DataHelper.VerifivationCode getVerificationCode() {
         var codeSQL = "SELECT code FROM auth_codes ORDER BY created DESC LIMIT 1";
-        var conn= getConn();
-        var code= QUERY_RUNNER.query(conn,codeSQL,new ScalarHandler<String>());
+        var conn = getConn();
+        var code = QUERY_RUNNER.query(conn, codeSQL, new ScalarHandler<String>());
         return new DataHelper.VerifivationCode(code);
     }
+
     @SneakyThrows
-    public static void  cleanDateBase(){
-        var connection= getConn();
-        QUERY_RUNNER.execute(connection,"DELETE FROM auth_codes");
-        QUERY_RUNNER.execute(connection,"DELETE FROM card_transactions");
-        QUERY_RUNNER.execute(connection,"DELETE FROM cards");
-        QUERY_RUNNER.execute(connection,"DELETE FROM users");
+    public static void cleanDateBase() {
+        var connection = getConn();
+        QUERY_RUNNER.execute(connection, "DELETE FROM auth_codes");
+        QUERY_RUNNER.execute(connection, "DELETE FROM card_transactions");
+        QUERY_RUNNER.execute(connection, "DELETE FROM cards");
+        QUERY_RUNNER.execute(connection, "DELETE FROM users");
     }
+
     @SneakyThrows
-    public static void  cleanAuthCodes() {
+    public static void cleanAuthCodes() {
         var connection = getConn();
         QUERY_RUNNER.execute(connection, "DELETE FROM auth_codes");
     }
