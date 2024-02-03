@@ -41,7 +41,7 @@ public class BackLoginTest {
     @Test
     @DisplayName("Should ger error notification if user not exist in base")
     void errorNotificationTest() {
-        var authInfo = DataHelper.getAuthInfo();
+        var authInfo = DataHelper.generateRandomUser();
         loginPage.validLogin(authInfo);
         loginPage.verifyErrorNotification("Ошибка! \nНеверно указан логин или пароль");
 
